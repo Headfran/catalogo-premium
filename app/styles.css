@@ -1,0 +1,1295 @@
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700;6..96,800&family=Dancing+Script:wght@400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@1,800;1,900&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: #050505;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(255,255,255,.075), transparent 24rem),
+    radial-gradient(circle at 88% 24%, rgba(255,255,255,.045), transparent 22rem),
+    #050505;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .42;
+  background-image:
+    linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: linear-gradient(to bottom, black, transparent 85%);
+}
+
+button,
+a {
+  font: inherit;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+.ks-page {
+  min-height: 100vh;
+  overflow-x: clip;
+  color: #fff;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255,255,255,.035), transparent 30rem),
+    linear-gradient(180deg, #050505 0%, #080808 48%, #050505 100%);
+}
+
+.ks-container {
+  width: min(1160px, calc(100% - 40px));
+  margin-inline: auto;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.ks-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  height: 70px;
+  border-bottom: 1px solid rgba(255,255,255,.09);
+  background: rgba(5,5,5,.78);
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+}
+
+.ks-nav {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.ks-logo-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.ks-header-icon {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.2);
+  box-shadow: 0 0 0 4px rgba(255,255,255,.025);
+}
+
+.ks-logo-text {
+  font-family: 'Bodoni Moda', 'Times New Roman', serif;
+  font-size: 36px;
+  font-weight: 800;
+  line-height: .92;
+  white-space: nowrap;
+  letter-spacing: -.8px;
+  text-transform: none;
+}
+
+.ks-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ks-instagram {
+  padding: 10px 15px;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 999px;
+  color: rgba(255,255,255,.78);
+  font-size: 11px;
+  font-weight: 800;
+  transition: .25s ease;
+}
+
+.ks-instagram:hover {
+  border-color: rgba(255,255,255,.5);
+  background: rgba(255,255,255,.08);
+  color: #fff;
+}
+
+.ks-cart-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-width: 46px;
+  height: 42px;
+  padding: 0 14px;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 999px;
+  background: #fff;
+  color: #050505;
+  font-weight: 900;
+  font-size: 13px;
+  box-shadow: 0 8px 30px rgba(0,0,0,.28);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.ks-cart-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 34px rgba(0,0,0,.4);
+}
+
+.ks-cart-button:active {
+  transform: scale(.95);
+}
+
+.ks-count {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #050505;
+  color: #fff;
+  font-size: 10px;
+}
+
+/* =========================================================
+   HERO — fondo negro con textura, luces y líneas
+========================================================= */
+
+.ks-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  background:
+    radial-gradient(circle at 72% 38%, rgba(255,255,255,.07), transparent 18rem),
+    radial-gradient(circle at 15% 80%, rgba(255,255,255,.035), transparent 20rem),
+    #060606;
+}
+
+.ks-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  opacity: .55;
+  background-image:
+    linear-gradient(115deg, transparent 0 48%, rgba(255,255,255,.045) 49%, transparent 50%),
+    linear-gradient(65deg, transparent 0 70%, rgba(255,255,255,.025) 71%, transparent 72%);
+  background-size: 190px 190px, 260px 260px;
+}
+
+.ks-hero::after {
+  content: "";
+  position: absolute;
+  width: 480px;
+  height: 480px;
+  right: -220px;
+  top: -220px;
+  z-index: -1;
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 55px rgba(255,255,255,.012),
+    0 0 0 110px rgba(255,255,255,.009);
+}
+
+.ks-hero-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(300px, .72fr);
+  align-items: center;
+  gap: clamp(34px, 5vw, 70px);
+  min-height: 650px;
+  padding: 86px 0;
+}
+
+.ks-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 13px;
+  border: 1px solid rgba(255,255,255,.13);
+  border-radius: 999px;
+  background: rgba(255,255,255,.025);
+  color: rgba(255,255,255,.58);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  box-shadow: inset 0 1px rgba(255,255,255,.04);
+}
+
+.ks-dot {
+  width: 6px;
+  height: 6px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 12px rgba(255,255,255,.8);
+}
+
+.ks-title {
+  max-width: 800px;
+  margin: 24px 0 0;
+  font-family: 'Exo 2', sans-serif;
+  font-size: clamp(50px, 7vw, 82px);
+  font-style: italic;
+  font-weight: 900;
+  line-height: .88;
+  letter-spacing: -3px;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.ks-title span {
+  display: inline-block;
+  color: #a79b9b;
+  text-shadow: 0 0 35px rgba(167,155,155,.12);
+}
+
+.ks-description {
+  max-width: 520px;
+  margin: 27px 0 0;
+  color: rgba(255,255,255,.52);
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.ks-hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.ks-primary,
+.ks-secondary {
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 19px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+  transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+
+.ks-primary {
+  background: #fff;
+  color: #000;
+  box-shadow: 0 10px 35px rgba(255,255,255,.08);
+}
+
+.ks-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(255,255,255,.14);
+}
+
+.ks-secondary {
+  border: 1px solid rgba(255,255,255,.16);
+  background: rgba(255,255,255,.015);
+  color: rgba(255,255,255,.85);
+}
+
+.ks-secondary:hover {
+  border-color: rgba(255,255,255,.4);
+  background: rgba(255,255,255,.07);
+}
+
+.ks-visual {
+  width: 83%;
+  position: relative;
+  aspect-ratio: .88;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.13);
+  border-radius: 30px;
+  background: #111;
+  box-shadow:
+    0 30px 90px rgba(0,0,0,.55),
+    0 0 0 8px rgba(255,255,255,.015);
+}
+
+.ks-visual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255,255,255,.1), transparent 28%, transparent 72%, rgba(0,0,0,.28));
+}
+
+.ks-visual-cover {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform .6s cubic-bezier(.2,.8,.2,1);
+}
+
+.ks-visual:hover .ks-visual-cover {
+  transform: scale(1.025);
+}
+
+/* =========================================================
+   CATÁLOGO
+========================================================= */
+
+.ks-catalog {
+  padding: 90px 0;
+}
+
+.ks-eyebrow {
+  margin: 0 0 9px;
+  color: rgba(255,255,255,.38);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.ks-section-title {
+  margin: 0;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 56;
+  line-height: .92;
+  letter-spacing: -2.5px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.ks-section-description {
+  max-width: 520px;
+  margin: 12px 0 34px;
+  color: rgba(255,255,255,.42);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.ks-lines-container {
+  display: flex;
+  gap: 26px;
+  overflow-x: auto;
+  margin-bottom: 34px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  scrollbar-width: none;
+}
+
+.ks-lines-container::-webkit-scrollbar {
+  display: none;
+}
+
+.ks-line-btn {
+  position: relative;
+  flex: 0 0 auto;
+  padding: 0 0 14px;
+  background: transparent;
+  color: rgba(255,255,255,.36);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  transition: color .25s ease;
+}
+
+.ks-line-btn:hover,
+.ks-line-btn.active {
+  color: #fff;
+}
+
+.ks-line-btn::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 2px;
+  border-radius: 10px;
+  background: #fff;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .3s ease;
+}
+
+.ks-line-btn.active::after {
+  transform: scaleX(1);
+}
+
+.ks-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.ks-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 20px;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.045), transparent 35%),
+    #0c0c0c;
+  box-shadow: 0 18px 55px rgba(0,0,0,.22);
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+
+.ks-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,255,255,.18);
+  box-shadow: 0 24px 70px rgba(0,0,0,.35);
+}
+
+.ks-image {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: #e9e9e9;
+}
+
+.ks-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(0,0,0,.18), transparent 45%);
+}
+
+.ks-image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform .45s ease;
+}
+
+.ks-card:hover .ks-image img {
+  transform: scale(1.045);
+}
+
+.ks-badge {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 1;
+  padding: 6px 9px;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 999px;
+  background: rgba(0,0,0,.72);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .7px;
+  text-transform: uppercase;
+}
+
+.ks-info {
+  padding: 17px;
+}
+
+.ks-product-name {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.ks-product-description {
+  min-height: 38px;
+  margin: 8px 0 0;
+  color: rgba(255,255,255,.38);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.ks-product-bottom {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.ks-price-label {
+  color: rgba(255,255,255,.27);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.ks-price {
+  margin-top: 3px;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.ks-add {
+  min-width: 42px;
+  height: 42px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: #fff;
+  color: #000;
+  font-weight: 900;
+  box-shadow: 0 7px 25px rgba(0,0,0,.3);
+  transition: transform .2s ease;
+}
+
+.ks-add:hover {
+  transform: scale(1.04);
+}
+
+.ks-add:active {
+  transform: scale(.92);
+}
+
+/* =========================================================
+   INSTAGRAM
+========================================================= */
+
+.ks-social {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 70px;
+  padding: 46px;
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 90% 10%, rgba(0,0,0,.08), transparent 18rem),
+    #fff;
+  color: #000;
+}
+
+.ks-social::before,
+.ks-social::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(0,0,0,.07);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.ks-social::before {
+  width: 360px;
+  height: 360px;
+  right: -140px;
+  top: -180px;
+}
+
+.ks-social::after {
+  width: 250px;
+  height: 250px;
+  right: -80px;
+  top: -125px;
+}
+
+.ks-social h3 {
+  position: relative;
+  z-index: 1;
+  max-width: 650px;
+  margin: 10px 0 0;
+  font-family: 'Exo 2', sans-serif;
+  font-size: clamp(34px, 5vw, 50px);
+  font-style: italic;
+  line-height: .95;
+  letter-spacing: -2px;
+  text-transform: uppercase;
+}
+
+.ks-social .ks-primary {
+  position: relative;
+  z-index: 1;
+  margin-top: 24px;
+  background: #000;
+  color: #fff;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.ks-footer {
+  position: relative;
+  padding: 80px 20px 40px;
+  border-top: 1px solid rgba(255,255,255,.08);
+  text-align: center;
+}
+
+.ks-thanks {
+  margin: 0;
+  font-family: 'Exo 2', sans-serif;
+  font-size: clamp(54px, 9vw, 88px);
+  font-style: italic;
+  line-height: .85;
+  letter-spacing: -5px;
+  font-weight: 900;
+}
+
+.ks-footer-text {
+  max-width: 470px;
+  margin: 20px auto 0;
+  color: rgba(255,255,255,.34);
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+.ks-copy {
+  margin-top: 26px;
+  color: rgba(255,255,255,.18);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+/* =========================================================
+   CARRITO FLOTANTE
+========================================================= */
+
+.ks-floating {
+  position: fixed;
+  left: 50%;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  z-index: 25;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  max-width: calc(100% - 28px);
+  min-height: 48px;
+  padding: 13px 18px;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 999px;
+  background: rgba(255,255,255,.94);
+  color: #000;
+  box-shadow: 0 15px 50px rgba(0,0,0,.55);
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+  backdrop-filter: blur(15px);
+}
+
+/* =========================================================
+   CARRITO / PANEL
+========================================================= */
+
+.ks-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: flex-end;
+  background: rgba(0,0,0,.76);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.ks-panel {
+  width: min(430px, 100%);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid rgba(255,255,255,.1);
+  background:
+    radial-gradient(circle at 80% 0%, rgba(255,255,255,.05), transparent 20rem),
+    #090909;
+  box-shadow: -25px 0 80px rgba(0,0,0,.35);
+}
+
+.ks-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.ks-panel-title {
+  margin: 3px 0 0;
+  font-size: 28px;
+  letter-spacing: -1.5px;
+  font-weight: 900;
+}
+
+.ks-close {
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 50%;
+  background: rgba(255,255,255,.025);
+  color: rgba(255,255,255,.72);
+  font-size: 22px;
+  transition: .2s ease;
+}
+
+.ks-close:hover {
+  background: #fff;
+  color: #000;
+}
+
+.ks-items {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.ks-empty {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: rgba(255,255,255,.35);
+  font-size: 12px;
+}
+
+.ks-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 17px;
+  background: rgba(255,255,255,.025);
+}
+
+.ks-item img {
+  width: 62px;
+  height: 62px;
+  flex: 0 0 auto;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.ks-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ks-item-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.ks-item-price {
+  margin-top: 5px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.ks-remove {
+  flex: 0 0 auto;
+  padding: 7px;
+  background: transparent;
+  color: rgba(255,255,255,.35);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.ks-remove:hover {
+  color: #fff;
+}
+
+.ks-panel-footer {
+  padding: 20px;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+
+.ks-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.ks-total strong {
+  font-size: 25px;
+}
+
+.ks-whatsapp {
+  width: 100%;
+  min-height: 50px;
+  padding: 14px;
+  border-radius: 15px;
+  background: #fff;
+  color: #000;
+  font-size: 12px;
+  font-weight: 900;
+  transition: transform .2s ease;
+}
+
+.ks-whatsapp:not(:disabled):active {
+  transform: scale(.98);
+}
+
+.ks-whatsapp:disabled {
+  cursor: not-allowed;
+  opacity: .3;
+}
+
+.ks-note {
+  margin: 10px 0 0;
+  color: rgba(255,255,255,.25);
+  text-align: center;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+  .ks-container {
+    width: min(100% - 32px, 680px);
+  }
+
+  .ks-hero-grid {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: 68px 0 72px;
+  }
+
+  .ks-visual {
+    width: min(100%, 520px);
+    aspect-ratio: 1.2;
+    margin-inline: auto;
+  }
+
+  .ks-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ks-catalog {
+    padding: 72px 0;
+  }
+}
+
+/* =========================================================
+   MÓVIL — prioridad principal
+========================================================= */
+
+@media (max-width: 600px) {
+  body {
+    background:
+      radial-gradient(circle at 50% 0%, rgba(255,255,255,.07), transparent 18rem),
+      #050505;
+  }
+
+  body::before {
+    background-size: 34px 34px;
+    opacity: .28;
+  }
+
+  .ks-container {
+    width: min(100% - 24px, 520px);
+  }
+
+  .ks-header {
+    height: 62px;
+  }
+
+  .ks-header-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+  }
+
+  .ks-logo-wrapper {
+    gap: 8px;
+  }
+
+  .ks-logo-text {
+    font-size: 22px;
+    letter-spacing: -.65px;
+  }
+
+  .ks-instagram {
+    display: none;
+  }
+
+  .ks-cart-button {
+    min-width: 42px;
+    width: 42px;
+    height: 40px;
+    padding: 0;
+  }
+
+  .ks-cart-button .ks-count {
+    position: absolute;
+    transform: translate(14px, -13px);
+  }
+
+  .ks-hero {
+    background:
+      radial-gradient(circle at 50% 18%, rgba(255,255,255,.065), transparent 14rem),
+      #060606;
+  }
+
+  .ks-hero::before {
+    background-size: 130px 130px;
+    opacity: .45;
+  }
+
+  .ks-hero::after {
+    width: 330px;
+    height: 330px;
+    right: -230px;
+    top: -180px;
+  }
+
+  .ks-hero-grid {
+    gap: 34px;
+    padding: 48px 0 58px;
+  }
+
+  .ks-pill {
+    padding: 8px 11px;
+    font-size: 8px;
+    letter-spacing: 1.7px;
+  }
+
+  .ks-title {
+    margin-top: 21px;
+    font-size: clamp(48px, 14vw, 64px);
+    line-height: .86;
+    letter-spacing: -2.5px;
+  }
+
+  .ks-description {
+    max-width: none;
+    margin-top: 22px;
+    font-size: 13px;
+    line-height: 1.65;
+  }
+
+  .ks-hero-buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 9px;
+    margin-top: 24px;
+  }
+
+  .ks-primary,
+  .ks-secondary {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .ks-visual {
+    display: none;
+  }
+
+  .ks-catalog {
+    padding: 58px 0;
+  }
+
+  .ks-section-title {
+    font-size: 43px;
+    letter-spacing: -2px;
+  }
+
+  .ks-section-description {
+    margin-bottom: 27px;
+    font-size: 12px;
+  }
+
+  .ks-lines-container {
+    gap: 21px;
+    margin-right: -12px;
+    padding-right: 12px;
+    margin-bottom: 25px;
+  }
+
+  .ks-line-btn {
+    font-size: 10px;
+    padding-bottom: 12px;
+  }
+
+  .ks-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .ks-card {
+    border-radius: 16px;
+  }
+
+  .ks-image {
+    aspect-ratio: .88;
+  }
+
+  .ks-info {
+    padding: 12px;
+  }
+
+  .ks-product-name {
+    min-height: 30px;
+    font-size: 12px;
+    line-height: 1.25;
+  }
+
+  .ks-product-description {
+    min-height: 47px;
+    margin-top: 6px;
+    font-size: 10px;
+    line-height: 1.45;
+  }
+
+  .ks-product-bottom {
+    margin-top: 13px;
+  }
+
+  .ks-price-label {
+    font-size: 7px;
+  }
+
+  .ks-price {
+    font-size: 17px;
+  }
+
+  .ks-add {
+    width: 36px;
+    min-width: 36px;
+    height: 36px;
+    padding: 0;
+    font-size: 19px;
+  }
+
+  .ks-add-text {
+    display: none;
+  }
+
+  .ks-social {
+    margin-bottom: 52px;
+    padding: 30px 22px;
+    border-radius: 22px;
+  }
+
+  .ks-social h3 {
+    font-size: 34px;
+    letter-spacing: -1.5px;
+  }
+
+  .ks-social .ks-primary {
+    width: auto;
+    margin-top: 20px;
+  }
+
+  .ks-footer {
+    padding: 62px 18px 34px;
+  }
+
+  .ks-thanks {
+    font-size: 58px;
+    letter-spacing: -4px;
+  }
+
+  .ks-footer-text {
+    font-size: 11px;
+  }
+
+  .ks-floating {
+    bottom: calc(12px + env(safe-area-inset-bottom));
+    min-height: 46px;
+    padding: 12px 16px;
+    font-size: 11px;
+  }
+
+  .ks-overlay {
+    align-items: flex-end;
+  }
+
+  .ks-panel {
+    width: 100%;
+    height: min(91%, 720px);
+    border-left: 0;
+    border-top: 1px solid rgba(255,255,255,.1);
+    border-radius: 24px 24px 0 0;
+  }
+
+  .ks-panel-header {
+    padding: 18px 18px 16px;
+  }
+
+  .ks-items {
+    padding: 15px;
+  }
+
+  .ks-panel-footer {
+    padding: 15px;
+    padding-bottom: calc(15px + env(safe-area-inset-bottom));
+  }
+}
+
+/* =========================================================
+   TELÉFONOS MUY PEQUEÑOS
+========================================================= */
+
+@media (max-width: 380px) {
+  .ks-container {
+    width: min(100% - 20px, 520px);
+  }
+
+  .ks-logo-text {
+    font-size: 21px;
+    letter-spacing: -.6px;
+  }
+
+  .ks-title {
+    font-size: 47px;
+    letter-spacing: -2.2px;
+  }
+
+  .ks-grid {
+    gap: 8px;
+  }
+
+  .ks-info {
+    padding: 10px;
+  }
+
+  .ks-product-name {
+    font-size: 11px;
+  }
+
+  .ks-product-description {
+    min-height: 44px;
+    font-size: 9px;
+  }
+
+  .ks-price {
+    font-size: 16px;
+  }
+}
+
+/* =========================================================
+   ACCESIBILIDAD / MENOS MOVIMIENTO
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+  }
+}
+
+/* =========================================================
+   BUSCADOR — SOLO DISEÑO
+========================================================= */
+
+.ks-catalog-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 28px;
+  margin-bottom: 28px;
+}
+
+.ks-catalog-copy {
+  min-width: 0;
+}
+
+.ks-search {
+  width: min(320px, 100%);
+  flex: 0 0 320px;
+  position: relative;
+}
+
+.ks-search-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  width: 17px;
+  height: 17px;
+  transform: translateY(-50%);
+  color: rgba(255,255,255,.46);
+  pointer-events: none;
+}
+
+.ks-search-input {
+  width: 100%;
+  height: 46px;
+  padding: 0 17px 0 44px;
+  border: 1px solid rgba(255,255,255,.13);
+  border-radius: 999px;
+  outline: none;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.018)),
+    rgba(255,255,255,.02);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.035),
+    0 10px 30px rgba(0,0,0,.16);
+  transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
+}
+
+.ks-search-input::placeholder {
+  color: rgba(255,255,255,.32);
+}
+
+.ks-search-input:focus {
+  border-color: rgba(255,255,255,.32);
+  background: rgba(255,255,255,.045);
+  box-shadow:
+    0 0 0 4px rgba(255,255,255,.03),
+    0 12px 32px rgba(0,0,0,.25);
+}
+
+@media (max-width: 600px) {
+  .ks-catalog-head {
+    display: block;
+    margin-bottom: 24px;
+  }
+
+  .ks-search {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .ks-search-input {
+    height: 44px;
+  }
+}
