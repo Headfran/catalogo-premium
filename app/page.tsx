@@ -81,6 +81,7 @@ export default function Home() {
   const [cartOpen, setCartOpen] = useState(false);
   
   const [activeLine, setActiveLine] = useState("todas");
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const total = useMemo(
     () => cart.reduce((sum, product) => sum + product.price, 0),
@@ -92,9 +93,25 @@ export default function Home() {
     return products.filter((product) => product.lineId === activeLine);
   }, [activeLine]);
 
+  function openProduct(product: Product) {
+    setSelectedProduct(product);
+  }
+
+  function closeProduct() {
+    setSelectedProduct(null);
+  }
+
   function addProduct(product: Product) {
     setCart((current) => [...current, product]);
+    setSelectedProduct(null);
     setCartOpen(true);
+  }
+
+  function consultProductOnWhatsApp(product: Product) {
+    const message = `Hola Kasaca Sport 👋\n\nQuiero consultar por este producto:\n\n${product.name}\nPrecio: $${product.price.toFixed(2)}\n\n¿Podrían darme más información y disponibilidad?`;
+
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank", "noopener,noreferrer");
   }
 
   function removeProduct(index: number) {
@@ -133,20 +150,11 @@ export default function Home() {
           {/* ---------------------------------------- */}
 
           <div className="ks-actions">
-            <a
-              className="ks-instagram"
-              href={INSTAGRAM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Instagram
-            </a>
-
             <button
               className="ks-cart-button"
               onClick={() => setCartOpen(true)}
             >
-              🛒 
+               🛒 
               {cart.length > 0 && (
                 <span className="ks-count">{cart.length}</span>
               )}
@@ -169,9 +177,7 @@ export default function Home() {
             </h1>
 
             <p className="ks-description">
-              Descubre la colección KasacaSport. Camisetas, conjuntos y
-              diseños seleccionados para quienes viven el deporte y llevan
-              su pasión con orgullo.
+              XXXXXXXXXXXXXXXXXXXXXXXXXX
             </p>
 
             <div className="ks-hero-buttons">
@@ -255,10 +261,26 @@ export default function Home() {
             </p>
           ) : (
             filteredProducts.map((product) => (
-              <article className="ks-card" key={product.id}>
+              <article
+                className="ks-card ks-card-clickable"
+                key={product.id}
+                onClick={() => openProduct(product)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    openProduct(product);
+                  }
+                }}
+                role="button"
+                tabIndex={0}
+                aria-label={`Ver detalles de ${product.name}`}
+              >
                 <div className="ks-image">
                   <img src={product.image} alt={product.name} />
-                  <div className="ks-badge">KasacaSport</div>
+                  <div className="ks-badge">Kasaca Sport</div>
+                  <div className="ks-view-product">
+                    Ver detalles <span aria-hidden="true">↗</span>
+                  </div>
                 </div>
 
                 <div className="ks-info">
@@ -278,7 +300,10 @@ export default function Home() {
 
                     <button
                       className="ks-add"
-                      onClick={() => addProduct(product)}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        addProduct(product);
+                      }}
                       aria-label={`Agregar ${product.name}`}
                     >
                       <span className="ks-add-text">Agregar</span>
@@ -297,7 +322,7 @@ export default function Home() {
           <p className="ks-eyebrow">Síguenos</p>
 
           <h3>
-            KasacaSport
+            Kasaca Sport
             <br />
             también está en Instagram.
           </h3>
@@ -308,7 +333,7 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            @kasacasport →
+            @xxxxxxx →
           </a>
         </div>
       </section>
@@ -320,7 +345,7 @@ export default function Home() {
           Más que una marca, somos apasionados por el deporte igual que tú. ¡Gracias por confiar en nosotros desde cada rincón de Venezuela y acompañarnos en este camino!
         </p>
 
-        <div className="ks-copy">KASACASPORT © 2026</div>
+        <div className="ks-copy">KASACA SPORT © 2026</div>
       </footer>
 
       {cart.length > 0 && !cartOpen && (
@@ -332,6 +357,84 @@ export default function Home() {
           {cart.length === 1 ? "producto" : "productos"} • $
           {total.toFixed(2)}
         </button>
+      )}
+
+      {selectedProduct && (
+        <div
+          className="ks-product-modal-overlay"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              closeProduct();
+            }
+          }}
+        >
+          <article
+            className="ks-product-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="ks-product-modal-title"
+          >
+            <button
+              className="ks-product-modal-close"
+              onClick={closeProduct}
+              aria-label="Cerrar detalles del producto"
+            >
+              ×
+            </button>
+
+            <div className="ks-product-modal-image-wrap">
+              <img
+                src={selectedProduct.image}
+                alt={selectedProduct.name}
+                className="ks-product-modal-image"
+              />
+              <span className="ks-product-modal-badge">Kasaca Sport</span>
+            </div>
+
+            <div className="ks-product-modal-content">
+              <p className="ks-eyebrow">Detalle del producto</p>
+
+              <h2 id="ks-product-modal-title" className="ks-product-modal-title">
+                {selectedProduct.name}
+              </h2>
+
+              <p className="ks-product-modal-description">
+                {selectedProduct.description}
+              </p>
+
+              <div className="ks-product-modal-price">
+                ${selectedProduct.price.toFixed(2)}
+              </div>
+
+              <div className="ks-product-modal-actions">
+                <button
+                  className="ks-product-modal-whatsapp"
+                  onClick={() => consultProductOnWhatsApp(selectedProduct)}
+                >
+                  <svg
+                    className="ks-whatsapp-icon"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M20.52 3.48A11.79 11.79 0 0 0 12.01 0C5.5 0 .2 5.3.2 11.81c0 2.08.54 4.11 1.57 5.9L.1 24l6.46-1.69a11.84 11.84 0 0 0 5.45 1.33h.01c6.51 0 11.81-5.3 11.81-11.81 0-3.15-1.22-6.12-3.31-8.35ZM12.02 21.7h-.01a9.84 9.84 0 0 1-5.02-1.37l-.36-.22-3.83 1 1.02-3.73-.24-.38a9.83 9.83 0 0 1-1.51-5.19C2.07 6.36 6.53 1.9 12.02 1.9c2.66 0 5.16 1.04 7.04 2.92a9.89 9.89 0 0 1 2.92 7.03c0 5.49-4.47 9.85-9.96 9.85Zm5.43-7.38c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.95 1.17-.17.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.5-.89-.79-1.5-1.77-1.68-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.21 5.09 4.5.71.31 1.27.5 1.7.64.71.23 1.35.2 1.86.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35Z"
+                    />
+                  </svg>
+                  Consultar por WhatsApp
+                </button>
+
+                <button
+                  className="ks-product-modal-cart"
+                  onClick={() => addProduct(selectedProduct)}
+                >
+                  Agregar al carrito
+                  <span aria-hidden="true">+</span>
+                </button>
+              </div>
+            </div>
+          </article>
+        </div>
       )}
 
       {cartOpen && (
@@ -414,7 +517,7 @@ export default function Home() {
               </button>
 
               <p className="ks-note">
-                Tu selección se enviará directamente a KasacaSport para
+                Tu selección se enviará directamente a Kasaca Sport para
                 confirmar el pedido.
               </p>
             </div>

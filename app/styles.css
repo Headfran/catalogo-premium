@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700;6..96,800&family=Dancing+Script:wght@400..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@1,800;1,900&display=swap');
-
+@font-face {
+  font-family: 'Designer'; /* Este es el nombre que usaremos en CSS */
+  src: url('/fonts/Designer.otf'); /* CAMBIA ESTO: Revisa si es .ttf, .otf o .woff */
+  font-weight: normal;
+  font-style: normal;
+  letter-spacing: 3px;
+}
 * {
   box-sizing: border-box;
 }
@@ -110,7 +116,7 @@ img {
 
 .ks-logo-text {
   font-family: 'Bodoni Moda', 'Times New Roman', serif;
-  font-size: 36px;
+  font-size: 49px;
   font-weight: 800;
   line-height: .92;
   white-space: nowrap;
@@ -260,8 +266,8 @@ img {
 .ks-title {
   max-width: 800px;
   margin: 24px 0 0;
-  font-family: 'Exo 2', sans-serif;
-  font-size: clamp(50px, 7vw, 82px);
+  font-family: 'Designer', sans-serif;
+  font-size: 75;
   font-style: italic;
   font-weight: 900;
   line-height: .88;
@@ -327,7 +333,6 @@ img {
 }
 
 .ks-visual {
-  width: 83%;
   position: relative;
   aspect-ratio: .88;
   overflow: hidden;
@@ -379,7 +384,7 @@ img {
 .ks-section-title {
   margin: 0;
   font-family: 'Exo 2', sans-serif;
-  font-size: 56;
+  font-size: 50;
   line-height: .92;
   letter-spacing: -2.5px;
   font-weight: 900;
@@ -987,7 +992,6 @@ img {
     margin-top: 21px;
     font-size: clamp(48px, 14vw, 64px);
     line-height: .86;
-    letter-spacing: -2.5px;
   }
 
   .ks-description {
@@ -1291,5 +1295,332 @@ img {
 
   .ks-search-input {
     height: 44px;
+  }
+}
+
+/* =========================================================
+   TARJETAS INTERACTIVAS
+========================================================= */
+
+.ks-card-clickable {
+  cursor: pointer;
+}
+
+.ks-view-product {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 11px;
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 999px;
+  background: rgba(0,0,0,.68);
+  color: rgba(255,255,255,.9);
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-50%, 8px);
+  backdrop-filter: blur(10px);
+  transition: opacity .25s ease, transform .25s ease, background .25s ease;
+}
+
+.ks-card:hover .ks-view-product,
+.ks-card:focus-visible .ks-view-product {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.ks-card:focus-visible {
+  outline: 2px solid rgba(255,255,255,.65);
+  outline-offset: 4px;
+}
+
+/* =========================================================
+   MODAL / DETALLE DEL PRODUCTO
+========================================================= */
+
+.ks-product-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(0,0,0,.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  animation: ks-modal-overlay-in .2s ease both;
+}
+
+.ks-product-modal {
+  position: relative;
+  width: min(780px, 100%);
+  max-height: min(620px, calc(100vh - 48px));
+  display: grid;
+  grid-template-columns: minmax(280px, .95fr) minmax(280px, 1.05fr);
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.13);
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(255,255,255,.06), transparent 15rem),
+    linear-gradient(145deg, #151515, #090909 60%);
+  box-shadow:
+    0 35px 100px rgba(0,0,0,.65),
+    0 0 0 6px rgba(255,255,255,.015);
+  animation: ks-modal-in .25s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.ks-product-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 5;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 50%;
+  background: rgba(0,0,0,.52);
+  color: rgba(255,255,255,.84);
+  font-size: 22px;
+  line-height: 1;
+  backdrop-filter: blur(10px);
+  transition: .2s ease;
+}
+
+.ks-product-modal-close:hover {
+  background: #fff;
+  color: #000;
+}
+
+.ks-product-modal-image-wrap {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  background: #111;
+}
+
+.ks-product-modal-image-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.08), transparent 35%),
+    linear-gradient(to top, rgba(0,0,0,.22), transparent 45%);
+}
+
+.ks-product-modal-image {
+  width: 100%;
+  height: 100%;
+  min-height: 360px;
+  display: block;
+  object-fit: cover;
+}
+
+.ks-product-modal-badge {
+  position: absolute;
+  left: 15px;
+  top: 15px;
+  z-index: 2;
+  padding: 7px 10px;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 999px;
+  background: rgba(0,0,0,.68);
+  color: #fff;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .9px;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
+}
+
+.ks-product-modal-content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 48px 40px 34px;
+  overflow-y: auto;
+}
+
+.ks-product-modal-title {
+  margin: 7px 0 0;
+  max-width: 420px;
+  font-family: 'Exo 2', sans-serif;
+  font-size: clamp(30px, 4vw, 45px);
+  font-style: italic;
+  font-weight: 900;
+  line-height: .94;
+  letter-spacing: -1.7px;
+  text-transform: uppercase;
+}
+
+.ks-product-modal-description {
+  max-width: 430px;
+  margin: 18px 0 0;
+  color: rgba(255,255,255,.48);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.ks-product-modal-price {
+  margin-top: 24px;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -.5px;
+}
+
+.ks-product-modal-actions {
+  display: grid;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 28px;
+}
+
+.ks-product-modal-whatsapp,
+.ks-product-modal-cart {
+  width: 100%;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border-radius: 14px;
+  font-size: 12px;
+  font-weight: 900;
+  transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+
+.ks-product-modal-whatsapp {
+  background: #fff;
+  color: #000;
+  box-shadow: 0 12px 32px rgba(0,0,0,.25);
+}
+
+.ks-product-modal-cart {
+  border: 1px solid rgba(255,255,255,.15);
+  background: rgba(255,255,255,.035);
+  color: #fff;
+}
+
+.ks-product-modal-whatsapp:hover,
+.ks-product-modal-cart:hover {
+  transform: translateY(-1px);
+}
+
+.ks-product-modal-cart:hover {
+  border-color: rgba(255,255,255,.34);
+  background: rgba(255,255,255,.08);
+}
+
+.ks-whatsapp-icon {
+  width: 19px;
+  height: 19px;
+  flex: 0 0 auto;
+}
+
+@keyframes ks-modal-overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes ks-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 720px) {
+  .ks-product-modal-overlay {
+    padding: 16px;
+  }
+
+  .ks-product-modal {
+    width: min(520px, 100%);
+    max-height: calc(100vh - 32px);
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(230px, 42vh) auto;
+    border-radius: 23px;
+  }
+
+  .ks-product-modal-image {
+    min-height: 0;
+    height: 100%;
+  }
+
+  .ks-product-modal-content {
+    padding: 28px 24px 24px;
+  }
+
+  .ks-product-modal-title {
+    font-size: 33px;
+  }
+
+  .ks-product-modal-description {
+    margin-top: 14px;
+    font-size: 12px;
+  }
+
+  .ks-product-modal-price {
+    margin-top: 18px;
+    font-size: 25px;
+  }
+
+  .ks-product-modal-actions {
+    margin-top: 22px;
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 430px) {
+  .ks-product-modal-overlay {
+    padding: 10px;
+  }
+
+  .ks-product-modal {
+    max-height: calc(100vh - 20px);
+    grid-template-rows: 245px auto;
+    border-radius: 20px;
+  }
+
+  .ks-product-modal-close {
+    top: 10px;
+    right: 10px;
+    width: 35px;
+    height: 35px;
+  }
+
+  .ks-product-modal-content {
+    padding: 23px 18px 18px;
+  }
+
+  .ks-product-modal-title {
+    font-size: 29px;
+    letter-spacing: -1.2px;
+  }
+
+  .ks-product-modal-description {
+    line-height: 1.55;
+  }
+
+  .ks-product-modal-price {
+    margin-top: 15px;
+  }
+
+  .ks-product-modal-whatsapp,
+  .ks-product-modal-cart {
+    min-height: 46px;
   }
 }
