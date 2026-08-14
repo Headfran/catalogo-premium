@@ -1,0 +1,274 @@
+"use client";
+import { useState } from "react";
+
+export default function Login() {
+  const [showPass, setShowPass] = useState(false);
+
+  return (
+    <>
+      <style>{`
+              
+        * {
+          box-sizing: border-box;
+        }
+
+        html {
+          scroll-behavior: smooth;
+          background: #050505;
+        }
+
+        body {
+          margin: 0;
+          min-width: 320px;
+          background:
+            radial-gradient(circle at 12% 8%, rgba(255,255,255,.075), transparent 24rem),
+            radial-gradient(circle at 88% 24%, rgba(255,255,255,.045), transparent 22rem),
+            #050505;
+          color: #fff;
+          font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body::before {
+          content: "";
+          position: fixed;
+          inset: 0;
+          z-index: -1;
+          pointer-events: none;
+          opacity: .42;
+          background-image:
+            linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+          background-size: 42px 42px;
+          mask-image: linear-gradient(to bottom, black, transparent 85%);
+        }
+        .login {
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 20px;
+        }
+
+        .box {
+          width: 620px;
+          max-width: 100%;
+          display: flex;
+          background: #fff;
+          border-radius: 14px;
+          overflow: hidden;
+          box-shadow: 0 20px 50px #000;
+        }
+
+        .logo-side {
+          width: 40%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #000;
+          padding: 30px;
+        }
+
+        .logo {
+          width: 145px;
+          max-width: 100%;
+        }
+
+        .form-side {
+          width: 60%;
+          padding: 32px;
+        }
+
+        h2 {
+          margin: 0 0 5px;
+          color: #111;
+          font-size: 23px;
+        }
+
+        .subtitle {
+          margin: 0 0 22px;
+          color: #888;
+          font-size: 12px;
+        }
+
+        label {
+          display: block;
+          font-size: 12px;
+          font-weight: bold;
+          margin-bottom: 6px;
+          color: #222;
+        }
+
+        input {
+          color: #000000;
+          width: 100%;
+          height: 42px;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          padding: 0 12px;
+          outline: none;
+          margin-bottom: 14px;
+          background: #fafafa;
+        }
+
+        input:focus {
+          border-color: #000;
+          background: #fff;
+        }
+
+        .pass {
+          position: relative;
+        }
+
+        .pass input {
+          padding-right: 42px;
+        }
+
+        .eye {
+          position: absolute;
+          right: 10px;
+          top: 10px;
+          border: 0;
+          background: transparent;
+          cursor: pointer;
+          color: #666;
+        }
+
+        .options {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 11px;
+          margin-bottom: 18px;
+        }
+
+        .remember {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          color: #777;
+        }
+
+        .remember input {
+          width: auto;
+          height: auto;
+          margin: 0;
+        }
+
+        a {
+          color: #000;
+          text-decoration: none;
+          font-weight: bold;
+        }
+
+        .btn {
+          width: 100%;
+          height: 43px;
+          border: 0;
+          border-radius: 8px;
+          background: #000;
+          color: #fff;
+          font-weight: bold;
+          cursor: pointer;
+          transition: .2s;
+        }
+
+        .btn:hover {
+          background: #222;
+          transform: translateY(-1px);
+        }
+
+        .register {
+          text-align: center;
+          margin: 15px 0 0;
+          color: #999;
+          font-size: 11px;
+        }
+
+        @media (max-width: 600px) {
+          .box {
+            width: 350px;
+            flex-direction: column;
+          }
+
+          .logo-side,
+          .form-side {
+            width: 100%;
+          }
+
+          .logo-side {
+            padding: 20px;
+          }
+
+          .logo {
+            width: 100px;
+          }
+
+          .form-side {
+            padding: 25px;
+          }
+        }
+      `}</style>
+
+      <div className="login">
+        <div className="box">
+
+          <div className="logo-side">
+            <img
+              src="/ks.jpg"
+              alt="Kasaca Sport"
+              className="logo"
+            />
+          </div>
+
+          <div className="form-side">
+            <h2>Bienvenido</h2>
+            <p className="subtitle">
+              Ingresa a tu cuenta | Kasaca Sport
+            </p>
+
+            <form>
+              <label>Usuario</label>
+              <input
+                type="text"
+                required
+              />
+
+              <label>Contraseña</label>
+
+              <div className="pass">
+                <input
+                  type={showPass ? "text" : "password"}
+                  
+                  required
+                />
+
+                <button
+                  type="button"
+                  className="eye"
+                  onClick={() => setShowPass(!showPass)}
+                >
+                  {showPass ? "◉" : "◌"}
+                </button>
+              </div>
+
+              <div className="options">
+                <label className="remember">
+                  {/* <input type="checkbox" />
+                  Recordarme */}
+                </label>
+
+              </div>
+
+              <button className="btn" type="submit">
+                INICIAR SESIÓN
+              </button>
+
+             
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </>
+  );
+}

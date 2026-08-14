@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-   title: "KasacaSport",
+   title: "Kasaca Sport",
    description: "Nuestro catálogo de productos",
 };
 
