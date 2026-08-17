@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import "./styles.css";
 
 type Product = {
@@ -10,7 +10,15 @@ type Product = {
   price: number;
   image: string;
   lineId: string;
+  sizes: string[];
 };
+
+type CartItem = Product & {
+  size: string;
+};
+
+const ADULT_SIZES = ["S", "M", "L", "XL", "2XL"];
+const CHILD_SIZES = ["8", "10", "12", "14", "16"];
 
 const WHATSAPP_NUMBER = "584120000000";
 const INSTAGRAM_URL = "https://instagram.com/kasacasport";
@@ -23,6 +31,7 @@ const productLines = [
   { id: "ninos", name: "Niños" },
   { id: "formula1", name: "Fórmula 1" },
   { id: "basket", name: "Basket" },
+  { id: "beisbol", name: "Béisbol" },
 ];
 
 const products: Product[] = [
@@ -33,6 +42,7 @@ const products: Product[] = [
     price: 25,
     image: "/productos/producto-1.jpg",
     lineId: "retro",
+    sizes: ADULT_SIZES,
   },
   {
     id: 2,
@@ -41,6 +51,7 @@ const products: Product[] = [
     price: 28,
     image: "/productos/producto-2.jpg",
     lineId: "fan",
+    sizes: ADULT_SIZES,
   },
   {
     id: 3,
@@ -49,6 +60,7 @@ const products: Product[] = [
     price: 45,
     image: "/productos/producto-3.jpg",
     lineId: "jugador",
+    sizes: ADULT_SIZES,
   },
   {
     id: 4,
@@ -57,6 +69,7 @@ const products: Product[] = [
     price: 30,
     image: "/productos/producto-4.jpg",
     lineId: "ninos",
+    sizes: CHILD_SIZES,
   },
   {
     id: 5,
@@ -65,6 +78,7 @@ const products: Product[] = [
     price: 35,
     image: "/productos/producto-5.jpg",
     lineId: "formula1",
+    sizes: ADULT_SIZES,
   },
   {
     id: 6,
@@ -73,15 +87,133 @@ const products: Product[] = [
     price: 27,
     image: "/productos/producto-6.jpg",
     lineId: "basket",
+    sizes: ADULT_SIZES,
   }
 ];
 
+type CarouselSlide = {
+  id: "logo" | "futbol" | "formula1" | "basket" | "beisbol";
+  label: string;
+  eyebrow?: string;
+  image: string;
+};
+
+const carouselSlides: CarouselSlide[] = [
+  {
+    id: "logo",
+    label: "Kasaca Sport",
+    eyebrow: "Kasaca Sport",
+    image: "/ks.jpg",
+  },
+  {
+    id: "futbol",
+    label: "Fútbol",
+    image: "f.jpg",
+  },
+  {
+    id: "formula1",
+    label: "Fórmula 1",
+    eyebrow: "Formula Racing",
+    image: "f1.jpg",
+  },
+  {
+    id: "basket",
+    label: "Basket",
+    image: "f2.jpg",
+  },
+  {
+    id: "beisbol",
+    label: "Béisbol",
+    image: "f3.jpg",
+  },
+];
+
 export default function Home() {
-  const [cart, setCart] = useState<Product[]>([]);
+  const [cart, setCart] = useState<CartItem[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
   
   const [activeLine, setActiveLine] = useState("todas");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedSize, setSelectedSize] = useState("");
+
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  const [carouselPaused, setCarouselPaused] = useState(false);
+  const carouselTouchStartX = useRef<number | null>(null);
+  const carouselSwiped = useRef(false);
+
+  useEffect(() => {
+    if (carouselPaused) return;
+
+    const timer = window.setInterval(() => {
+      setCarouselIndex((current) => (current + 1) % carouselSlides.length);
+    }, 4200);
+
+    return () => window.clearInterval(timer);
+  }, [carouselPaused]);
+
+  const activeCarouselSlide = carouselSlides[carouselIndex];
+
+  function handleCarouselFilter(slide: CarouselSlide) {
+    // Fútbol es un filtro agrupado: muestra Retro + Fan + Jugador.
+    if (slide.id === "futbol") {
+      setActiveLine("futbol");
+    } else if (slide.id === "logo") {
+      setActiveLine("todas");
+    } else {
+      setActiveLine(slide.id);
+    }
+
+    window.setTimeout(() => {
+      document.getElementById("catalogo")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 40);
+  }
+
+  function goToCarousel(index: number) {
+    setCarouselIndex(index);
+  }
+
+  function handleCarouselTouchStart(event: React.TouchEvent<HTMLDivElement>) {
+    if (window.matchMedia("(max-width: 600px)").matches) {
+      carouselTouchStartX.current = event.touches[0]?.clientX ?? null;
+      carouselSwiped.current = false;
+    }
+  }
+
+  function handleCarouselTouchEnd(event: React.TouchEvent<HTMLDivElement>) {
+    if (!window.matchMedia("(max-width: 600px)").matches) return;
+
+    const startX = carouselTouchStartX.current;
+    const endX = event.changedTouches[0]?.clientX;
+
+    if (startX === null || endX === undefined) return;
+
+    const distance = endX - startX;
+    const threshold = 50;
+
+    if (Math.abs(distance) < threshold) {
+      carouselTouchStartX.current = null;
+      return;
+    }
+
+    carouselSwiped.current = true;
+
+    if (distance < 0) {
+      setCarouselIndex((current) => (current + 1) % carouselSlides.length);
+    } else {
+      setCarouselIndex(
+        (current) => (current - 1 + carouselSlides.length) % carouselSlides.length
+      );
+    }
+
+    window.setTimeout(() => {
+      carouselSwiped.current = false;
+    }, 350);
+
+    carouselTouchStartX.current = null;
+  }
 
   const total = useMemo(
     () => cart.reduce((sum, product) => sum + product.price, 0),
@@ -90,25 +222,36 @@ export default function Home() {
 
   const filteredProducts = useMemo(() => {
     if (activeLine === "todas") return products;
+
+    if (activeLine === "futbol") {
+      return products.filter((product) =>
+        ["fan", "jugador", "retro"].includes(product.lineId)
+      );
+    }
+
     return products.filter((product) => product.lineId === activeLine);
   }, [activeLine]);
 
   function openProduct(product: Product) {
     setSelectedProduct(product);
+    setSelectedSize(product.sizes[0] ?? "");
   }
 
   function closeProduct() {
     setSelectedProduct(null);
+    setSelectedSize("");
   }
 
-  function addProduct(product: Product) {
-    setCart((current) => [...current, product]);
+  function addProduct(product: Product, size = selectedSize || product.sizes[0] || "") {
+    setCart((current) => [...current, { ...product, size }]);
     setSelectedProduct(null);
+    setSelectedSize("");
     setCartOpen(true);
   }
 
   function consultProductOnWhatsApp(product: Product) {
-    const message = `Hola Kasaca Sport 👋\n\nQuiero consultar por este producto:\n\n${product.name}\nPrecio: $${product.price.toFixed(2)}\n\n¿Podrían darme más información y disponibilidad?`;
+    const size = selectedSize || product.sizes[0] || "Sin talla seleccionada";
+    const message = `Hola Kasaca Sport 👋\n\nQuiero consultar por este producto:\n\n${product.name}\nTalla: ${size}\nPrecio: $${product.price.toFixed(2)}\n\n¿Podrían darme más información y disponibilidad?`;
 
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank", "noopener,noreferrer");
@@ -124,7 +267,7 @@ export default function Home() {
     const order = cart
       .map(
         (product, index) =>
-          `${index + 1}. ${product.name} — $${product.price.toFixed(2)}`
+          `${index + 1}. ${product.name} — Talla ${product.size} — $${product.price.toFixed(2)}`
       )
       .join("\n");
 
@@ -177,7 +320,8 @@ export default function Home() {
             </h1>
 
             <p className="ks-description">
-              XXXXXXXXXXXXXXXXXXXXXXXXXX
+              Somos Tienda Online, Ubicados en Maracay, Estado Aragua.
+              ¡Realizamos entregas GRATIS en la Zona Centro de Maracay, y Envíos a Nivel Nacional!
             </p>
 
             <div className="ks-hero-buttons">
@@ -196,13 +340,94 @@ export default function Home() {
             </div>
           </div>
 
-          {/* --- RECUADRO DE IMAGEN COMPLETA --- */}
-          <div className="ks-visual">
-            <img 
-              src="/ks.jpg" 
-              alt="Kasaca Sport" 
-              className="ks-visual-cover" 
-            />
+          {/* --- CARRUSEL DE COLECCIONES --- */}
+          <div
+            className="ks-visual ks-carousel"
+            onMouseEnter={() => setCarouselPaused(true)}
+            onMouseLeave={() => setCarouselPaused(false)}
+            onFocusCapture={() => setCarouselPaused(true)}
+            onBlurCapture={() => setCarouselPaused(false)}
+            onTouchStart={handleCarouselTouchStart}
+            onTouchEnd={handleCarouselTouchEnd}
+            aria-label={`Carrusel de colecciones: ${activeCarouselSlide.label}`}
+          >
+            <button
+              type="button"
+              className="ks-carousel-main-action"
+              onClick={() => {
+                if (carouselSwiped.current) {
+                  carouselSwiped.current = false;
+                  return;
+                }
+                handleCarouselFilter(activeCarouselSlide);
+              }}
+              aria-label={`Explorar colección ${activeCarouselSlide.label}`}
+            >
+              <div className="ks-carousel-media">
+                <img
+                  key={activeCarouselSlide.id}
+                  src={activeCarouselSlide.image}
+                  alt={activeCarouselSlide.label}
+                  className="ks-visual-cover ks-carousel-image"
+                />
+              </div>
+
+              <div className="ks-carousel-shade" />
+
+              {activeCarouselSlide.id !== "logo" && (
+                <div className="ks-carousel-copy">
+                  {activeCarouselSlide.eyebrow && (
+                    <span className="ks-carousel-eyebrow">
+                      {activeCarouselSlide.eyebrow}
+                    </span>
+                  )}
+                  <strong>{activeCarouselSlide.label}</strong>
+                  <span className="ks-carousel-cta">
+                    Explorar colección <span aria-hidden="true">↗</span>
+                  </span>
+                </div>
+              )}
+            </button>
+
+            <button
+              type="button"
+              className="ks-carousel-arrow ks-carousel-arrow-left"
+              onClick={(event) => {
+                event.stopPropagation();
+                setCarouselIndex(
+                  (current) =>
+                    (current - 1 + carouselSlides.length) % carouselSlides.length
+                );
+              }}
+              aria-label="Colección anterior"
+            >
+              <span className="ks-carousel-chevron ks-carousel-chevron-left" aria-hidden="true" />
+            </button>
+
+            <button
+              type="button"
+              className="ks-carousel-arrow ks-carousel-arrow-right"
+              onClick={(event) => {
+                event.stopPropagation();
+                setCarouselIndex(
+                  (current) => (current + 1) % carouselSlides.length
+                );
+              }}
+              aria-label="Siguiente colección"
+            >
+              <span className="ks-carousel-chevron ks-carousel-chevron-right" aria-hidden="true" />
+            </button>
+
+            <div className="ks-carousel-dots" aria-hidden="true">
+              {carouselSlides.map((slide, index) => (
+                <span
+                  key={slide.id}
+                  className={`ks-carousel-dot ${
+                    index === carouselIndex ? "active" : ""
+                  }`}
+                />
+              ))}
+            </div>
           </div>
           {/* ----------------------------------- */}
         </div>
@@ -214,7 +439,9 @@ export default function Home() {
             <p className="ks-eyebrow">Explora nuestras colecciones</p>
             <h2 className="ks-section-title">Catálogo</h2>
             <p className="ks-section-description">
-              Selecciona una línea y descubre sus productos.
+              {activeLine === "futbol"
+                ? "Fútbol · Retro · Fan · Jugador"
+                : "Selecciona una línea y descubre sus productos."}
             </p>
           </div>
 
@@ -246,7 +473,14 @@ export default function Home() {
           {productLines.map((line) => (
             <button
               key={line.id}
-              className={`ks-line-btn ${activeLine === line.id ? "active" : ""}`}
+              className={`ks-line-btn ${
+                activeLine === line.id ? "active" : ""
+              } ${
+                activeLine === "futbol" &&
+                ["fan", "jugador", "retro"].includes(line.id)
+                  ? "group-active"
+                  : ""
+              }`}
               onClick={() => setActiveLine(line.id)}
             >
               {line.name}
@@ -402,6 +636,26 @@ export default function Home() {
                 {selectedProduct.description}
               </p>
 
+              <div className="ks-product-size">
+                <div className="ks-product-size-label">Talla</div>
+                <div className="ks-product-size-options">
+                  {selectedProduct.sizes.map((size) => (
+                    <button
+                      type="button"
+                      key={size}
+                      className={`ks-size-option ${
+                        selectedSize === size ? "active" : ""
+                      }`}
+                      onClick={() => setSelectedSize(size)}
+                      aria-label={`Talla ${size}`}
+                      aria-pressed={selectedSize === size}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <div className="ks-product-modal-price">
                 ${selectedProduct.price.toFixed(2)}
               </div>
@@ -486,6 +740,7 @@ export default function Home() {
 
                     <div className="ks-item-info">
                       <div className="ks-item-name">{product.name}</div>
+                      <div className="ks-item-size">Talla {product.size}</div>
                       <div className="ks-item-price">
                         ${product.price.toFixed(2)}
                       </div>

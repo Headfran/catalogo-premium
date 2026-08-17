@@ -1624,3 +1624,519 @@ img {
     min-height: 46px;
   }
 }
+
+/* =========================================================
+   CARRUSEL — NAVEGACIÓN LATERAL
+   Añadido sobre el CSS base proporcionado.
+========================================================= */
+
+.ks-carousel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.ks-carousel-main-action {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.ks-carousel-media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  background: #090909;
+}
+
+.ks-carousel-image {
+  position: absolute;
+  inset: 0;
+  animation: ks-carousel-image-in .7s cubic-bezier(.2,.8,.2,1) both;
+  filter: saturate(.92) contrast(1.02);
+}
+
+.ks-carousel-shade {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,.02) 18%, rgba(0,0,0,.04) 48%, rgba(0,0,0,.74) 100%),
+    linear-gradient(120deg, rgba(255,255,255,.06), transparent 35%);
+}
+
+/* El logo queda limpio: sin círculos ni marcos decorativos adicionales. */
+.ks-carousel::before,
+.ks-carousel::after {
+  content: none;
+  display: none;
+}
+
+/* Las flechas son botones reales y funcionales. */
+.ks-carousel-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 5;
+  width: 44px;
+  height: 76px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 14px;
+  background: rgba(0,0,0,.34);
+  color: rgba(255,255,255,.92);
+  font-size: 22px;
+  line-height: 1;
+  transform: translateY(-50%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 12px 30px rgba(0,0,0,.26);
+  transition:
+    background .2s ease,
+    border-color .2s ease,
+    transform .2s ease,
+    width .2s ease;
+}
+
+.ks-carousel-arrow:hover {
+  background: rgba(255,255,255,.92);
+  border-color: rgba(255,255,255,.75);
+  color: #000;
+}
+
+.ks-carousel-arrow:active {
+  transform: translateY(-50%) scale(.96);
+}
+
+.ks-carousel-arrow-left {
+  left: 12px;
+}
+
+.ks-carousel-arrow-right {
+  right: 12px;
+}
+
+.ks-carousel-arrow:focus-visible {
+  outline: 2px solid rgba(255,255,255,.82);
+  outline-offset: 3px;
+}
+
+.ks-carousel-copy {
+  position: absolute;
+  left: 74px;
+  right: 74px;
+  bottom: 28px;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: #fff;
+  pointer-events: none;
+  transition: transform .3s ease;
+}
+
+.ks-carousel-eyebrow {
+  color: rgba(255,255,255,.55);
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
+
+.ks-carousel-copy strong {
+  margin-top: 5px;
+  font-family: 'Exo 2', sans-serif;
+  font-size: clamp(30px, 4vw, 47px);
+  font-style: italic;
+  font-weight: 900;
+  line-height: .9;
+  letter-spacing: -1.5px;
+  text-transform: uppercase;
+  text-shadow: 0 7px 30px rgba(0,0,0,.4);
+}
+
+.ks-carousel-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 8px 11px;
+  border: 1px solid rgba(255,255,255,.17);
+  border-radius: 999px;
+  background: rgba(0,0,0,.3);
+  color: rgba(255,255,255,.78);
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+}
+
+.ks-carousel-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 13px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.ks-carousel-dot {
+  width: 18px;
+  height: 2px;
+  display: block;
+  border-radius: 999px;
+  background: rgba(255,255,255,.26);
+  transition: width .3s ease, background .3s ease;
+}
+
+.ks-carousel-dot.active {
+  width: 30px;
+  background: #fff;
+}
+
+.ks-carousel:hover .ks-carousel-copy {
+  transform: translateY(-3px);
+}
+
+@keyframes ks-carousel-image-in {
+  from {
+    opacity: 0;
+    transform: scale(1.045);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 900px) {
+  .ks-carousel-arrow {
+    width: 40px;
+    height: 68px;
+  }
+
+  .ks-carousel-arrow-left {
+    left: 10px;
+  }
+
+  .ks-carousel-arrow-right {
+    right: 10px;
+  }
+
+  .ks-carousel-copy {
+    left: 64px;
+    right: 64px;
+    bottom: 26px;
+  }
+}
+
+@media (max-width: 600px) {
+  /* Mantiene el carrusel visible en móvil. */
+  .ks-visual.ks-carousel {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1.05;
+    margin-inline: 0;
+    border-radius: 22px;
+    min-height: 340px;
+    box-shadow:
+      0 25px 70px rgba(0,0,0,.55),
+      0 0 0 5px rgba(255,255,255,.018);
+  }
+
+  .ks-carousel-arrow {
+    width: 38px;
+    height: 62px;
+    border-radius: 12px;
+    font-size: 19px;
+  }
+
+  .ks-carousel-arrow-left {
+    left: 8px;
+  }
+
+  .ks-carousel-arrow-right {
+    right: 8px;
+  }
+
+  .ks-carousel-copy {
+    left: 56px;
+    right: 56px;
+    bottom: 22px;
+  }
+
+  .ks-carousel-copy strong {
+    font-size: clamp(31px, 11vw, 46px);
+  }
+
+  .ks-carousel-eyebrow {
+    font-size: 7px;
+    letter-spacing: 2px;
+  }
+
+  .ks-carousel-cta {
+    font-size: 7px;
+    margin-top: 9px;
+  }
+
+  .ks-carousel-dots {
+    bottom: 10px;
+  }
+}
+
+@media (max-width: 380px) {
+  .ks-visual.ks-carousel {
+    min-height: 315px;
+    aspect-ratio: 1;
+  }
+
+  .ks-carousel-arrow {
+    width: 34px;
+    height: 56px;
+  }
+}
+
+
+/* =========================================================
+   CARRUSEL V6 — FLECHAS TIPO CHEVRON + SWIPE SOLO MÓVIL
+   Se agregan overrides sin tocar las tipografías existentes.
+========================================================= */
+
+.ks-carousel-main-action {
+  touch-action: pan-y;
+}
+
+.ks-carousel-arrow {
+  width: 56px;
+  height: 82px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.ks-carousel-arrow:hover {
+  background: transparent;
+  border-color: transparent;
+  color: #fff;
+}
+
+.ks-carousel-arrow:active {
+  transform: translateY(-50%) scale(.92);
+}
+
+.ks-carousel-chevron {
+  display: block;
+  width: 25px;
+  height: 25px;
+  border-top: 4px solid rgba(255,255,255,.96);
+  border-right: 4px solid rgba(255,255,255,.96);
+  filter: drop-shadow(0 2px 5px rgba(0,0,0,.45));
+  transition: transform .2s ease, opacity .2s ease;
+}
+
+.ks-carousel-chevron-left {
+  transform: rotate(-135deg);
+}
+
+.ks-carousel-chevron-right {
+  transform: rotate(45deg);
+}
+
+.ks-carousel-arrow:hover .ks-carousel-chevron-left {
+  transform: rotate(-135deg) scale(1.08);
+}
+
+.ks-carousel-arrow:hover .ks-carousel-chevron-right {
+  transform: rotate(45deg) scale(1.08);
+}
+
+.ks-carousel-arrow-left {
+  left: 4px;
+}
+
+.ks-carousel-arrow-right {
+  right: 4px;
+}
+
+@media (max-width: 600px) {
+  .ks-visual.ks-carousel {
+    touch-action: pan-y;
+  }
+
+  .ks-carousel-main-action {
+    touch-action: pan-y;
+  }
+
+  .ks-carousel-arrow {
+    width: 54px;
+    height: 76px;
+  }
+
+  .ks-carousel-arrow-left {
+    left: 1px;
+  }
+
+  .ks-carousel-arrow-right {
+    right: 1px;
+  }
+
+  .ks-carousel-chevron {
+    width: 22px;
+    height: 22px;
+    border-width: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ks-carousel-chevron,
+  .ks-carousel-arrow {
+    transition: none;
+  }
+}
+
+
+/* Filtro agrupado de Fútbol */
+.ks-line-btn.group-active {
+  color: #fff;
+}
+
+.ks-line-btn.group-active::after {
+  transform: scaleX(1);
+}
+
+
+/* Tallas en el detalle del producto */
+.ks-product-size {
+  margin-top: 20px;
+}
+
+.ks-product-size-label {
+  margin-bottom: 9px;
+  color: rgba(255,255,255,.38);
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.ks-product-size-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.ks-size-option {
+  min-width: 42px;
+  height: 38px;
+  padding: 0 11px;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 10px;
+  background: rgba(255,255,255,.025);
+  color: rgba(255,255,255,.62);
+  font-size: 11px;
+  font-weight: 900;
+  transition: .2s ease;
+}
+
+.ks-size-option:hover {
+  border-color: rgba(255,255,255,.38);
+  color: #fff;
+  background: rgba(255,255,255,.06);
+}
+
+.ks-size-option.active {
+  border-color: #fff;
+  background: #fff;
+  color: #000;
+}
+
+.ks-item-size {
+  margin-top: 3px;
+  color: rgba(255,255,255,.42);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+/* Flechas del carrusel: mismas en PC y móvil, sin diamantes */
+.ks-carousel-chevron {
+  position: relative;
+  display: block;
+  width: 28px;
+  height: 70px;
+  border: 0 !important;
+  filter: drop-shadow(0 2px 5px rgba(0,0,0,.45));
+  transform: none !important;
+  transition: transform .2s ease, opacity .2s ease;
+}
+
+.ks-carousel-chevron::before {
+  position: absolute;
+  top: 50%;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 68px;
+  font-weight: 300;
+  line-height: 1;
+  color: rgba(255,255,255,.98);
+  transform: translateY(-52%);
+}
+
+.ks-carousel-chevron-left::before {
+  content: "‹";
+  left: -3px;
+}
+
+.ks-carousel-chevron-right::before {
+  content: "›";
+  right: -3px;
+}
+
+.ks-carousel-arrow:hover .ks-carousel-chevron-left,
+.ks-carousel-arrow:hover .ks-carousel-chevron-right {
+  transform: scale(1.06) !important;
+}
+
+@media (max-width: 600px) {
+  .ks-carousel-chevron {
+    width: 26px;
+    height: 64px;
+  }
+
+  .ks-carousel-chevron::before {
+    font-size: 60px;
+  }
+}
+
+@media (max-width: 430px) {
+  .ks-product-size {
+    margin-top: 16px;
+  }
+
+  .ks-size-option {
+    min-width: 40px;
+    height: 36px;
+  }
+
+  .ks-carousel-chevron::before {
+    font-size: 56px;
+  }
+}
