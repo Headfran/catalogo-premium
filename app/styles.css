@@ -1913,6 +1913,64 @@ img {
   }
 }
 
+/* =========================================================
+   PAGINACIÓN
+========================================================= */
+
+.ks-pagination-wrap {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 16px !important;
+  margin-top: 48px !important;
+}
+
+.ks-pagination-info {
+  color: rgba(255, 255, 255, 0.45) !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px !important;
+}
+
+.ks-pagination {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+}
+
+.ks-page-btn {
+  min-width: 38px !important;
+  height: 38px !important;
+  padding: 0 14px !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-radius: 10px !important;
+  background: rgba(255, 255, 255, 0.025) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.ks-page-btn:hover:not(:disabled) {
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.ks-page-btn.active {
+  border-color: #ffffff !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+.ks-page-btn:disabled {
+  opacity: 0.25 !important;
+  cursor: not-allowed !important;
+}
+
 
 /* =========================================================
    CARRUSEL V6 — FLECHAS TIPO CHEVRON + SWIPE SOLO MÓVIL
@@ -2202,4 +2260,80 @@ img {
   .ks-product-modal-whatsapp,
   .ks-product-modal-cart{min-height:40px;height:40px;border-radius:11px;font-size:10px}
   .ks-whatsapp-icon{width:16px;height:16px}
+}
+
+/* =========================================================
+   ESTILOS PARA PRODUCTOS AGOTADOS (BLINDADOS)
+========================================================= */
+
+/* Badge rojo destacado sobre la imagen */
+.ks-sold-out-badge {
+  position: absolute !important;
+  top: 10px !important;
+  right: 10px !important;
+  z-index: 5 !important;
+  padding: 6px 12px !important;
+  border: 1px solid rgba(239, 68, 68, 0.5) !important;
+  border-radius: 999px !important;
+  background: rgba(220, 38, 38, 0.92) !important;
+  color: #ffffff !important;
+  font-size: 9px !important;
+  font-weight: 900 !important;
+  letter-spacing: 1px !important;
+  text-transform: uppercase !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+/* Efecto en blanco y negro / atenuado para la imagen agotada */
+.ks-card.sold-out .ks-image img {
+  filter: grayscale(0.85) brightness(0.65) !important;
+  opacity: 0.8 !important;
+}
+
+/* Título atenuado */
+.ks-card.sold-out .ks-product-name {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Botón "Agotada" deshabilitado */
+.ks-add:disabled {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: rgba(255, 255, 255, 0.35) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+}
+
+/* Asegurar que la etiqueta 'Ver detalles' sobre la imagen se vea bien */
+.ks-view-product {
+  position: absolute !important;
+  bottom: 10px !important;
+  right: 10px !important;
+  z-index: 2 !important;
+  padding: 6px 10px !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 999px !important;
+  background: rgba(0, 0, 0, 0.65) !important;
+  color: #ffffff !important;
+  font-size: 9px !important;
+  font-weight: 800 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+}
+
+/* En móviles, mantener visible el texto "Agotada" o icono de bloqueo */
+@media (max-width: 600px) {
+  .ks-card.sold-out .ks-add {
+    width: auto !important;
+    min-width: unset !important;
+    padding: 0 10px !important;
+    border-radius: 999px !important;
+  }
+
+  .ks-card.sold-out .ks-add .ks-add-text {
+    display: inline-block !important;
+    font-size: 10px !important;
+  }
 }
