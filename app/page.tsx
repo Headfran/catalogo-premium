@@ -293,11 +293,24 @@ export default function Home() {
           {/* ---------------------------------------- */}
 
           <div className="ks-actions">
+            <a
+              className="ks-user-button"
+              href="http://localhost:3000/login"
+              aria-label="Iniciar sesión"
+              title="Iniciar sesión"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="8" r="3.5" />
+                <path d="M5.5 20c.7-3.3 3.1-5.1 6.5-5.1s5.8 1.8 6.5 5.1" />
+              </svg>
+            </a>
+
             <button
               className="ks-cart-button"
               onClick={() => setCartOpen(true)}
+              aria-label="Abrir carrito"
             >
-               🛒 
+              🛒
               {cart.length > 0 && (
                 <span className="ks-count">{cart.length}</span>
               )}
@@ -310,7 +323,7 @@ export default function Home() {
           <div>
             <div className="ks-pill">
               <span className="ks-dot" />
-              Nuevas colecciones disponibles
+              Colecciones disponibles
             </div>
 
             <h1 className="ks-title">
@@ -703,7 +716,7 @@ export default function Home() {
           <aside className="ks-panel">
             <div className="ks-panel-header">
               <div>
-                <p className="ks-eyebrow">Tu selección</p>
+                <p className="ks-eyebrow">Tus Productos</p>
                 <h2 className="ks-panel-title">Carrito</h2>
               </div>
 

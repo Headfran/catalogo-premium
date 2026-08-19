@@ -2140,3 +2140,66 @@ img {
     font-size: 56px;
   }
 }
+
+/* =========================================================
+   HEADER — ACCESO DE USUARIO
+========================================================= */
+.ks-user-button{
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:50%;
+  background:rgba(255,255,255,.03);
+  color:#fff;
+  transition:.2s ease;
+}
+.ks-user-button:hover{background:#fff;color:#000;transform:translateY(-1px)}
+.ks-user-button svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* =========================================================
+   MODAL MÓVIL — MÁS COMPACTO PARA MOSTRAR LOS BOTONES
+========================================================= */
+@media (max-width:600px){
+  .ks-actions{gap:7px}
+  .ks-user-button{width:40px;height:40px}
+  .ks-user-button svg{width:19px;height:19px}
+}
+
+@media (max-width:430px){
+  .ks-product-modal-overlay{padding:8px;align-items:center}
+  .ks-product-modal{
+    width:100%;
+    max-width:360px;
+    max-height:calc(100vh - 16px);
+    grid-template-rows:165px minmax(0,1fr);
+    border-radius:18px;
+  }
+  .ks-product-modal-close{top:8px;right:8px;width:32px;height:32px;font-size:19px}
+  .ks-product-modal-image{min-height:0;height:165px;object-fit:cover}
+  .ks-product-modal-badge{left:10px;top:10px;padding:5px 8px;font-size:7px}
+  .ks-product-modal-content{
+    min-height:0;
+    padding:17px 16px 14px;
+    overflow-y:auto;
+  }
+  .ks-product-modal-content .ks-eyebrow{margin-bottom:6px;font-size:7px;letter-spacing:2px}
+  .ks-product-modal-title{
+    margin-top:3px;
+    max-width:100%;
+    font-size:24px;
+    line-height:.94;
+    letter-spacing:-1px;
+  }
+  .ks-product-modal-description{margin-top:9px;font-size:10px;line-height:1.45;max-width:100%}
+  .ks-product-size{margin-top:11px}
+  .ks-product-size-label{margin-bottom:6px;font-size:7px;letter-spacing:1.2px}
+  .ks-product-size-options{gap:5px}
+  .ks-size-option{min-width:36px;height:32px;padding:0 8px;border-radius:8px;font-size:9px}
+  .ks-product-modal-price{margin-top:10px;font-size:21px}
+  .ks-product-modal-actions{gap:7px;margin-top:12px;padding-top:0}
+  .ks-product-modal-whatsapp,
+  .ks-product-modal-cart{min-height:40px;height:40px;border-radius:11px;font-size:10px}
+  .ks-whatsapp-icon{width:16px;height:16px}
+}
