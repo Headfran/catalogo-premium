@@ -626,9 +626,9 @@ export default function CatalogClient({
                <p className="ks-eyebrow">Síguenos</p>
 
                <h3>
-                  Kasaca Sport
+                  Contactanos
                   <br />
-                  también está en Instagram.
+                  en WhatsApp.
                </h3>
 
                <a
