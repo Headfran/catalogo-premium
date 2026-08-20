@@ -38,7 +38,7 @@ type CarouselSlide = {
    image: string;
 };
 
-const WHATSAPP_NUMBER = "04220335656";
+const WHATSAPP_NUMBER = "+584220335656";
 const INSTAGRAM_URL = "https://www.instagram.com/kasaca_sport?igsh=dHplMW5kOXc3OXdv&utm_source=qr";
 const TIKTOK_URL = "https://www.tiktok.com/@kasaca.sport?_r=1&_t=ZS-991uaLEpEH9";
 const ITEMS_PER_PAGE = 12;
