@@ -17,6 +17,7 @@ import {
    FaTrash,
    FaBan
 } from "react-icons/fa";
+import { FaTiktok } from "react-icons/fa6";
 
 import "./styles.css";
 
@@ -37,8 +38,9 @@ type CarouselSlide = {
    image: string;
 };
 
-const WHATSAPP_NUMBER = "584120000000";
-const INSTAGRAM_URL = "https://instagram.com/kasacasport";
+const WHATSAPP_NUMBER = "04220335656";
+const INSTAGRAM_URL = "https://www.instagram.com/kasaca_sport?igsh=dHplMW5kOXc3OXdv&utm_source=qr";
+const TIKTOK_URL = "https://www.tiktok.com/@kasaca.sport?_r=1&_t=ZS-991uaLEpEH9";
 const ITEMS_PER_PAGE = 12;
 
 const carouselSlides: CarouselSlide[] = [
@@ -274,7 +276,7 @@ export default function CatalogClient({
          ? product.image
          : `${typeof window !== "undefined" ? window.location.origin : ""}${product.image}`;
 
-      const message = `👋 *CONSULTA DE PRODUCTO - KASACA SPORT*\n\nHola, quisiera más información sobre este producto:\n\n👕 *${product.name}*\n• *Talla:* ${size}\n• *Precio:* $${product.price.toFixed(2)}${bsPrice}\n🖼️ *Foto:* ${imageUrl}\n\n¿Tienen disponibilidad para envío/entrega inmediata?`;
+      const message = `👋 *CONSULTA DE PRODUCTO - KASACA SPORT*\n\nHola, quisiera más información sobre este producto:\n\n👕 *${product.name}*\n• *Precio:* $${product.price.toFixed(2)}\n\n¿Tienen disponibilidad para envío/entrega inmediata?`;
 
       const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
       window.open(url, "_blank", "noopener,noreferrer");
@@ -620,24 +622,26 @@ export default function CatalogClient({
             )}
          </section>
 
-         {/* SECCIÓN INSTAGRAM */}
+         {/* SECCIÓN TIKTOK */}
          <section className="ks-container">
             <div className="ks-social">
                <p className="ks-eyebrow">Síguenos</p>
 
                <h3>
-                  Contactanos
+                  Síguenos
                   <br />
-                  en WhatsApp.
+                  tambien por TikTok.
                </h3>
 
                <a
                   className="ks-primary"
-                  href={INSTAGRAM_URL}
+                  href={TIKTOK_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                >
-                  <FaInstagram style={{ marginRight: 8 }} /> @kasacasport <FaArrowRight style={{ marginLeft: 6, fontSize: 12 }} />
+                  <FaTiktok style={{ marginRight: 8, fontSize: 16 }} />
+                  @kasaca.sport
+                  <FaArrowRight style={{ marginLeft: 6, fontSize: 12 }} />
                </a>
             </div>
          </section>
