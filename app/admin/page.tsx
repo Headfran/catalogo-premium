@@ -91,6 +91,11 @@ export default function AdminPage() {
    const [imageFile, setImageFile] = useState<File | null>(null);
 
    const [loggingOut, setLoggingOut] = useState(false);
+   const [carouselOpen, setCarouselOpen] = useState(false);
+   const [carouselImages, setCarouselImages] = useState<(string | null)[]>([
+      null, null, null, null, null
+   ]);
+   const [carouselDragging, setCarouselDragging] = useState<number | null>(null);
    const router = useRouter();
 
    // 1. Obtener la Tasa BCV
@@ -442,6 +447,40 @@ export default function AdminPage() {
       );
    }
 
+   function handleCarouselFile(index: number, file?: File) {
+      if (!file) return;
+      if (!file.type.startsWith("image/")) {
+         toast.error("Selecciona un archivo de imagen válido.");
+         return;
+      }
+
+      const objectUrl = URL.createObjectURL(file);
+      setCarouselImages((current) => {
+         const next = [...current];
+         if (next[index]) URL.revokeObjectURL(next[index]!);
+         next[index] = objectUrl;
+         return next;
+      });
+   }
+
+   function handleCarouselDrop(
+      event: React.DragEvent<HTMLLabelElement>,
+      index: number
+   ) {
+      event.preventDefault();
+      setCarouselDragging(null);
+      handleCarouselFile(index, event.dataTransfer.files?.[0]);
+   }
+
+   function clearCarouselImage(index: number) {
+      setCarouselImages((current) => {
+         const next = [...current];
+         if (next[index]) URL.revokeObjectURL(next[index]!);
+         next[index] = null;
+         return next;
+      });
+   }
+
    const handleLogout = async () => {
       setLoggingOut(true);
       try {
@@ -503,8 +542,20 @@ export default function AdminPage() {
             </div>
 
             <nav className="admin-nav">
-               <button type="button" className="active">
+               <button
+                  type="button"
+                  className={!carouselOpen ? "active" : ""}
+                  onClick={() => setCarouselOpen(false)}
+               >
                   <FaTshirt className="admin-nav-icon" /> Stock de camisetas
+               </button>
+
+               <button
+                  type="button"
+                  className={carouselOpen ? "active" : ""}
+                  onClick={() => setCarouselOpen(true)}
+               >
+                  <FaUpload className="admin-nav-icon" /> Carrusel
                </button>
 
                <button
@@ -535,6 +586,84 @@ export default function AdminPage() {
                </div>
             </header>
 
+            {carouselOpen ? (
+               <div className="admin-carousel-panel">
+                  <div className="admin-carousel-heading">
+                     <div>
+                        <span className="admin-carousel-kicker">GESTIÓN VISUAL</span>
+                        <h1>Imágenes del Carrusel</h1>
+                        <p>
+                           Sube las 5 imágenes que aparecerán en el carrusel principal de Kasaca Sport.
+                        </p>
+                     </div>
+
+                     
+                  </div>
+
+                  <div className="admin-carousel-grid">
+                     {carouselImages.map((image, index) => (
+                        <div className="admin-carousel-slot" key={index}>
+                           <div className="admin-carousel-slot-top">
+                              <span>Imagen {index + 1}</span>
+                              <small>
+                                 {["Logo", "Fútbol", "Fórmula 1", "Basket", "Béisbol"][index]}
+                              </small>
+                           </div>
+
+                           <label
+                              className={`admin-carousel-dropzone ${
+                                 carouselDragging === index ? "dragging" : ""
+                              } ${image ? "has-image" : ""}`}
+                              onDragOver={(event) => {
+                                 event.preventDefault();
+                                 setCarouselDragging(index);
+                              }}
+                              onDragLeave={() => setCarouselDragging(null)}
+                              onDrop={(event) => handleCarouselDrop(event, index)}
+                           >
+                              {image ? (
+                                 <>
+                                    <img src={image} alt={`Vista previa carrusel ${index + 1}`} />
+                                    <div className="admin-carousel-overlay">
+                                       <span>Haz clic para cambiar</span>
+                                    </div>
+                                 </>
+                              ) : (
+                                 <div className="admin-carousel-empty">
+                                    <FaUpload />
+                                    <strong>Subir imagen</strong>
+                                    <span>Arrastra aquí o haz clic</span>
+                                 </div>
+                              )}
+
+                              <input
+                                 type="file"
+                                 accept="image/*"
+                                 onChange={(event) =>
+                                    handleCarouselFile(index, event.target.files?.[0])
+                                 }
+                              />
+                           </label>
+
+                           {image && (
+                              <button
+                                 type="button"
+                                 className="admin-carousel-remove"
+                                 onClick={() => clearCarouselImage(index)}
+                              >
+                                 <FaTrashAlt /> Quitar imagen
+                              </button>
+                           )}
+                        </div>
+                     ))}
+                  </div>
+
+                  <div className="admin-carousel-note">
+                     <strong>Orden del carrusel</strong>
+                     <span>1. Logo · 2. Fútbol · 3. Fórmula 1 · 4. Basket · 5. Béisbol</span>
+                  </div>
+               </div>
+            ) : (
             <div className="admin-main">
                <div className="admin-title-row">
                   <div>
@@ -836,6 +965,7 @@ export default function AdminPage() {
                   </div>
                </section>
             </div>
+            )}
          </section>
 
          {/* MODAL EDITOR DE CAMISETA */}

@@ -2323,3 +2323,166 @@ img {
     height: 31px;
   }
 }
+
+
+/* =========================================================
+   MOBILE — TEXTO MÁS LEGIBLE
+   Solo aumenta tamaños de letra, sin cambiar el diseño.
+========================================================= */
+
+@media (max-width: 600px) {
+  .ks-search-input {
+    font-size: 15px;
+  }
+
+  .ks-line-btn {
+    font-size: 12px;
+  }
+
+  .ks-section-description {
+    font-size: 13px;
+  }
+
+  .ks-eyebrow {
+    font-size: 9px;
+  }
+
+  .ks-product-name {
+    font-size: 14px;
+    line-height: 1.25;
+  }
+
+  .ks-product-description {
+    font-size: 11.5px;
+    line-height: 1.5;
+  }
+
+  .ks-price-label {
+    font-size: 8.5px;
+  }
+
+  .ks-price {
+    font-size: 20px;
+  }
+
+  .ks-add {
+    font-size: 20px;
+  }
+
+  .ks-pagination-info {
+    font-size: 12px;
+  }
+
+  .ks-page-btn {
+    font-size: 12px;
+  }
+
+  .ks-social h3 {
+    font-size: 35px;
+  }
+
+  .ks-footer-text {
+    font-size: 12px;
+  }
+
+  .ks-note {
+    font-size: 10.5px;
+  }
+
+  .ks-item-name {
+    font-size: 13px;
+  }
+
+  .ks-item-size {
+    font-size: 10.5px;
+  }
+
+  .ks-item-price {
+    font-size: 14px;
+  }
+
+  .ks-total span,
+  .ks-total strong {
+    font-size: 13px;
+  }
+
+  .ks-floating {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 430px) {
+  .ks-search-input {
+    font-size: 14px;
+  }
+
+  .ks-line-btn {
+    font-size: 11.5px;
+  }
+
+  .ks-section-description {
+    font-size: 12.5px;
+  }
+
+  .ks-product-name {
+    font-size: 13px;
+  }
+
+  .ks-product-description {
+    font-size: 10.8px;
+  }
+
+  .ks-price {
+    font-size: 19px;
+  }
+
+  .ks-add {
+    font-size: 19px;
+  }
+
+  .ks-social h3 {
+    font-size: 32px;
+  }
+
+  .ks-footer-text {
+    font-size: 11.5px;
+  }
+
+  .ks-item-name {
+    font-size: 12.5px;
+  }
+
+  .ks-item-size {
+    font-size: 10px;
+  }
+
+  .ks-item-price {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 380px) {
+  .ks-search-input {
+    font-size: 13.5px;
+  }
+
+  .ks-line-btn {
+    font-size: 11px;
+  }
+
+  .ks-product-name {
+    font-size: 12.5px;
+  }
+
+  .ks-product-description {
+    font-size: 10.3px;
+  }
+
+  .ks-price {
+    font-size: 18px;
+  }
+
+  .ks-add {
+    font-size: 18px;
+  }
+}
