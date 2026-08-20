@@ -243,7 +243,6 @@ export async function cambiarEstadoAgotado(ids: number[], soldOut: boolean) {
 
     if (error) throw error;
 
-    revalidateTag("products",);
     revalidatePath("/");
 
     return { success: true };

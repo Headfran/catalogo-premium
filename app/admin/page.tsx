@@ -304,7 +304,7 @@ export default function AdminPage() {
       }));
    }
 
-   function handleImageDrop(event: React.DragEvent<HTMLDivElement>) {
+   function handleImageDrop(event: React.DragEvent<HTMLLabelElement>) {
       event.preventDefault();
       setDraggingImage(false);
       handleFileSelect(event.dataTransfer.files?.[0]);
