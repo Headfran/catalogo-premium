@@ -1,4 +1,4 @@
-import { getCachedLines, getCachedProducts } from "@/lib/catalog";
+import { getCachedLines, getCachedProducts, getCachedCarousel } from "@/lib/catalog";
 import CatalogClient from "@/components/CatalogClient";
 
 // Revalidación estática de la página cada 60 segundos
@@ -21,10 +21,11 @@ async function getBcvRate(): Promise<number> {
 }
 
 export default async function HomePage() {
-   const [lines, products, exchangeRate] = await Promise.all([
+   const [lines, products, exchangeRate, carousel] = await Promise.all([
       getCachedLines(),
       getCachedProducts(),
       getBcvRate(),
+      getCachedCarousel(),
    ]);
 
    return (
@@ -32,6 +33,7 @@ export default async function HomePage() {
          initialProducts={products}
          lines={lines}
          exchangeRate={exchangeRate}
+         initialCarousel={carousel}
       />
    );
 }

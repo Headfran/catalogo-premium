@@ -1,4 +1,3 @@
-// lib/catalog.ts
 import { createClient } from "@supabase/supabase-js";
 import { unstable_cache } from "next/cache";
 
@@ -27,6 +26,14 @@ export type LineItem = {
   name: string;
 };
 
+// NUEVO TIPO PARA LOS SLIDES
+export type CarouselSlide = {
+  id: number;
+  titulo: string;
+  imagen_url: string;
+  orden: number;
+};
+
 // CACHÉ DE LÍNEAS (1 hora)
 export const getCachedLines = unstable_cache(
   async (): Promise<LineItem[]> => {
@@ -51,6 +58,27 @@ export const getCachedLines = unstable_cache(
   },
   ["catalog-lines-cache"],
   { revalidate: 3600, tags: ["lines"] }
+);
+
+// CACHÉ DEL CARRUSEL (60 segundos)
+export const getCachedCarousel = unstable_cache(
+  async (): Promise<CarouselSlide[]> => {
+    try {
+      const { data, error } = await supabase
+        .from("carrusel")
+        .select("id, titulo, imagen_url, orden")
+        .order("orden", { ascending: true });
+
+      if (error || !data) return [];
+
+      return data;
+    } catch (err) {
+      console.error("Error al obtener carrusel:", err);
+      return [];
+    }
+  },
+  ["catalog-carousel-cache"],
+  { revalidate: 60, tags: ["carousel"] }
 );
 
 // CACHÉ DE PRODUCTOS (60 segundos)

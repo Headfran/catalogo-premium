@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Product, LineItem } from "@/lib/catalog";
+import { Product, LineItem, CarouselSlide } from "@/lib/catalog";
 import {
    FaShoppingCart,
    FaUser,
@@ -31,52 +31,16 @@ type GroupedCartItem = {
    quantity: number;
 };
 
-type CarouselSlide = {
-   id: "logo" | "futbol" | "formula1" | "basket" | "beisbol";
-   label: string;
-   eyebrow?: string;
-   image: string;
-};
-
 const WHATSAPP_NUMBER = "+584220335656";
 const INSTAGRAM_URL = "https://www.instagram.com/kasaca_sport?igsh=dHplMW5kOXc3OXdv&utm_source=qr";
 const TIKTOK_URL = "https://www.tiktok.com/@kasaca.sport?_r=1&_t=ZS-991uaLEpEH9";
 const ITEMS_PER_PAGE = 12;
 
-const carouselSlides: CarouselSlide[] = [
-   {
-      id: "logo",
-      label: "Kasaca Sport",
-      eyebrow: "Kasaca Sport",
-      image: "/ks.jpg",
-   },
-   {
-      id: "futbol",
-      label: "Fútbol",
-      image: "/f.jpg",
-   },
-   {
-      id: "formula1",
-      label: "Fórmula 1",
-      eyebrow: "Formula Racing",
-      image: "/f1.jpg",
-   },
-   {
-      id: "basket",
-      label: "Basket",
-      image: "/f2.jpg",
-   },
-   {
-      id: "beisbol",
-      label: "Béisbol",
-      image: "/f3.jpg",
-   },
-];
-
 interface CatalogClientProps {
    initialProducts: Product[];
    lines: LineItem[];
    exchangeRate?: number;
+   initialCarousel: CarouselSlide[];
 }
 
 function formatBs(amount: number): string {
@@ -101,7 +65,8 @@ function isFootballLine(lineName: string): boolean {
 export default function CatalogClient({
    initialProducts,
    lines,
-   exchangeRate = 0
+   exchangeRate = 0,
+   initialCarousel
 }: CatalogClientProps) {
    const [cart, setCart] = useState<CartItem[]>([]);
    const [cartOpen, setCartOpen] = useState(false);
@@ -118,27 +83,42 @@ export default function CatalogClient({
    const carouselTouchStartX = useRef<number | null>(null);
    const carouselSwiped = useRef(false);
 
+   // Filtramos para asegurar que solo mostramos slides con imagen
+   const displaySlides = useMemo(() => {
+      const valid = initialCarousel.filter((slide) => slide.imagen_url);
+      return valid.length > 0
+         ? valid
+         : [{ id: 0, titulo: "Kasaca Sport", imagen_url: "/ks.jpg", orden: 1 }]; // Fallback por si la BD está vacía
+   }, [initialCarousel]);
+
    useEffect(() => {
-      if (carouselPaused) return;
+      if (carouselPaused || displaySlides.length <= 1) return;
 
       const timer = window.setInterval(() => {
-         setCarouselIndex((current) => (current + 1) % carouselSlides.length);
+         setCarouselIndex((current) => (current + 1) % displaySlides.length);
       }, 4200);
 
       return () => window.clearInterval(timer);
-   }, [carouselPaused]);
+   }, [carouselPaused, displaySlides.length]);
 
-   const activeCarouselSlide = carouselSlides[carouselIndex];
+   const activeCarouselSlide = displaySlides[carouselIndex] || displaySlides[0];
 
-   function handleCarouselFilter(slide: CarouselSlide) {
-      if (slide.id === "futbol") {
-         setActiveLine("futbol");
-      } else if (slide.id === "logo") {
+   function handleCarouselFilter(slide: CarouselSlide, index: number) {
+      const titleLower = (slide.titulo || "").toLowerCase();
+
+      // Si es el primer slide (portada/logo) o su título tiene "kasaca" -> Mostrar todas
+      if (index === 0 || titleLower.includes("kasaca")) {
          setActiveLine("todas");
-      } else {
+      }
+      // Si el título dice "futbol" -> activa la súper categoría de fútbol
+      else if (titleLower.includes("fútbol") || titleLower.includes("futbol")) {
+         setActiveLine("futbol");
+      }
+      // Para cualquier otro, busca la línea que coincida con el título del slide
+      else {
          const lineMatch = lines.find((l) =>
-            l.name.toLowerCase().includes(slide.label.toLowerCase()) ||
-            slide.label.toLowerCase().includes(l.name.toLowerCase())
+            l.name.toLowerCase().includes(titleLower) ||
+            titleLower.includes(l.name.toLowerCase())
          );
          setActiveLine(lineMatch ? lineMatch.id : "todas");
       }
@@ -159,7 +139,7 @@ export default function CatalogClient({
    }
 
    function handleCarouselTouchEnd(event: React.TouchEvent<HTMLDivElement>) {
-      if (!window.matchMedia("(max-width: 600px)").matches) return;
+      if (!window.matchMedia("(max-width: 600px)").matches || displaySlides.length <= 1) return;
 
       const startX = carouselTouchStartX.current;
       const endX = event.changedTouches[0]?.clientX;
@@ -172,9 +152,9 @@ export default function CatalogClient({
       carouselSwiped.current = true;
 
       if (distance < 0) {
-         setCarouselIndex((current) => (current + 1) % carouselSlides.length);
+         setCarouselIndex((current) => (current + 1) % displaySlides.length);
       } else {
-         setCarouselIndex((current) => (current - 1 + carouselSlides.length) % carouselSlides.length);
+         setCarouselIndex((current) => (current - 1 + displaySlides.length) % displaySlides.length);
       }
 
       window.setTimeout(() => {
@@ -312,7 +292,6 @@ export default function CatalogClient({
             block += `   • *Talla:* ${item.size}\n`;
             block += `   • *Precio Unit.:* $${item.product.price.toFixed(2)}${unitBs}\n`;
             block += `   • *Subtotal:* $${subtotalUsd.toFixed(2)}${subBs}\n`;
-            block += `   🖼️ *Foto:* ${imageUrl}`;
 
             return block;
          })
@@ -395,7 +374,7 @@ export default function CatalogClient({
                   </div>
                </div>
 
-               {/* CARRUSEL */}
+               {/* CARRUSEL DINÁMICO */}
                <div
                   className="ks-visual ks-carousel"
                   onMouseEnter={() => setCarouselPaused(true)}
@@ -406,27 +385,23 @@ export default function CatalogClient({
                   <button
                      type="button"
                      className="ks-carousel-main-action"
-                     onClick={() => handleCarouselFilter(activeCarouselSlide)}
+                     onClick={() => handleCarouselFilter(activeCarouselSlide, carouselIndex)}
                   >
                      <div className="ks-carousel-media">
                         <img
                            key={activeCarouselSlide.id}
-                           src={activeCarouselSlide.image}
-                           alt={activeCarouselSlide.label}
+                           src={activeCarouselSlide.imagen_url}
+                           alt={activeCarouselSlide.titulo}
                            className="ks-visual-cover ks-carousel-image"
                         />
                      </div>
 
                      <div className="ks-carousel-shade" />
 
-                     {activeCarouselSlide.id !== "logo" && (
+                     {/* Solo mostramos el overlay de texto si no es la imagen 0 (logo) */}
+                     {carouselIndex !== 0 && (
                         <div className="ks-carousel-copy">
-                           {activeCarouselSlide.eyebrow && (
-                              <span className="ks-carousel-eyebrow">
-                                 {activeCarouselSlide.eyebrow}
-                              </span>
-                           )}
-                           <strong>{activeCarouselSlide.label}</strong>
+                           <strong>{activeCarouselSlide.titulo}</strong>
                            <span className="ks-carousel-cta">
                               Explorar colección <FaExternalLinkAlt style={{ marginLeft: 4, fontSize: 10 }} />
                            </span>
@@ -434,32 +409,36 @@ export default function CatalogClient({
                      )}
                   </button>
 
-                  <button
-                     type="button"
-                     className="ks-carousel-arrow ks-carousel-arrow-left"
-                     onClick={(e) => {
-                        e.stopPropagation();
-                        setCarouselIndex((curr) => (curr - 1 + carouselSlides.length) % carouselSlides.length);
-                     }}
-                     aria-label="Anterior"
-                  >
-                     <FaChevronLeft />
-                  </button>
+                  {displaySlides.length > 1 && (
+                     <>
+                        <button
+                           type="button"
+                           className="ks-carousel-arrow ks-carousel-arrow-left"
+                           onClick={(e) => {
+                              e.stopPropagation();
+                              setCarouselIndex((curr) => (curr - 1 + displaySlides.length) % displaySlides.length);
+                           }}
+                           aria-label="Anterior"
+                        >
+                           <FaChevronLeft />
+                        </button>
 
-                  <button
-                     type="button"
-                     className="ks-carousel-arrow ks-carousel-arrow-right"
-                     onClick={(e) => {
-                        e.stopPropagation();
-                        setCarouselIndex((curr) => (curr + 1) % carouselSlides.length);
-                     }}
-                     aria-label="Siguiente"
-                  >
-                     <FaChevronRight />
-                  </button>
+                        <button
+                           type="button"
+                           className="ks-carousel-arrow ks-carousel-arrow-right"
+                           onClick={(e) => {
+                              e.stopPropagation();
+                              setCarouselIndex((curr) => (curr + 1) % displaySlides.length);
+                           }}
+                           aria-label="Siguiente"
+                        >
+                           <FaChevronRight />
+                        </button>
+                     </>
+                  )}
 
                   <div className="ks-carousel-dots">
-                     {carouselSlides.map((slide, index) => (
+                     {displaySlides.map((slide, index) => (
                         <span
                            key={slide.id}
                            className={`ks-carousel-dot ${index === carouselIndex ? "active" : ""}`}
